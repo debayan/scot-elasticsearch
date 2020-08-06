@@ -1,0 +1,52 @@
+curl -X PUT "localhost:9200/scotindex1" -H 'Content-Type: application/json' -d'
+{
+        
+                "settings": {
+                        "analysis": {
+                                "analyzer": {
+                                        "commaanalyzer": {
+                                                "type": "pattern",
+                                                "pattern": ","
+                                        }
+                                }
+                        },
+                        "index": {
+                                "number_of_shards": 5,
+                                "number_of_replicas": 1
+                        }
+                },
+                "mappings": {
+                      
+                                "properties": {
+                                        "words": {
+                                                "type": "text",
+                                                "index_options": "docs",
+                                                "analyzer": "commaanalyzer"
+                                        },
+                                        "wordfeatures": {
+                                                "type": "keyword"
+                                        },
+                                        "uri": {
+                                                "type": "keyword"
+                                        },
+                                        "text": {
+                                                "type": "keyword"
+                                        },
+                                        "year": {
+                                                "type":"integer"
+                                        }
+                                }
+                        
+                }
+        
+}
+'
+
+curl -XPUT localhost:9200/scotindex1/_settings -H 'Content-Type: application/json' -d'
+    {
+    "index": {
+    "blocks": {
+    "read_only_allow_delete": "false"
+    }
+    }
+    }'
